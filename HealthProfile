@@ -1,0 +1,143 @@
+import java.util.Scanner;
+import java.time.*;
+/**
+ * Brief description of the code
+ *
+ * @author Mustafa Lodin
+ * Health Profile (calculates BMI Index and general information) that keeps track of user data and displays it on a dashboard. 
+ */
+public class HealthProfile
+{
+    // instance variables - replace the example below with your own
+    private String firstName;
+    private String lastName;
+    private char gender;
+    private int month;
+    private int day;
+    private int year;
+    private double height;
+    private double weight;
+    private boolean test;
+    private String allergy;
+    //private Scanner sc;
+    
+    /**
+     * Constructor for objects of class HealthProfile
+     */
+    public void inputPatientInformation(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Welcome to the HealthProfile system. Please enter patient information");
+        
+        System.out.println("Please enter first name: ");
+        this.firstName = sc.nextLine();
+        
+        System.out.println("Please enter last name: ");
+        this.lastName = sc.nextLine();
+        
+        System.out.println("Please enter gender (M/F/O): ");
+        this.gender = sc.next().charAt(0);
+        
+        do{
+            System.out.println("Please enter birth month (1-12): ");
+            this.month = sc.nextInt();
+        }while(this.month < 1 || this.month > 12);
+
+        do{
+            System.out.println("Please enter birth day (1-31): ");
+            this.day = sc.nextInt();
+        }while(this.day < 1 || this.day > 31);
+        
+        do{        
+        System.out.println("Please enter four digit birth year: ");
+        this.year = sc.nextInt();
+        }while(this.year < 1900 || this.year > 2020);
+                
+        System.out.println("Please enter height in inches: ");
+        this.height = sc.nextDouble();
+        
+        System.out.println("Please enter weight: (in pounds)");
+        this.weight = sc.nextDouble();
+        
+        System.out.println("Positive for covid: (Enter True or False)");
+        this.test = sc.nextBoolean();
+        
+        System.out.println("Please enter all of your allergies in list: ");
+        sc.nextLine();
+        this.allergy = sc.nextLine();
+    }
+    public int calculateAge(){
+        LocalDate today = LocalDate.now();
+        LocalDate birthday = LocalDate.of(this.year, this.month, this.day);
+        return Period.between(birthday, today).getYears();
+    }
+    public String getTargetHeartRateInfo(){
+        int x = calculateAge();
+        int a = 220 - x;
+        double b = a * .5;
+        double c = a * .85;
+        String max = Integer.toString(a);
+        String lower = Double.toString(b);
+        String higher = Double.toString(c);
+        
+        return "Maximum heart rate is: " + max + " beats per minute." + "\n" + "\t" + " Target Heart Range is: " + lower + " - " + higher;
+    }
+    public double calculateBMI(){
+        double bmi = (weight * 703)/(height * height);
+        return bmi;
+    }
+    public void displayBMIChart(){
+        double x = calculateBMI();
+        String bmi = Double.toString(x);
+        System.out.println("BMI VALUES: ");
+        System.out.println("Underweight:" + "\t" +  "less than 18.5");
+        System.out.println("Normal:" + "\t" + "\t" +  "between 18.5 and 24.9");
+        System.out.println("Overweight:" + "\t" +  "between 25 and 29.9");
+        System.out.println("Obese:" + "\t" + "\t" +  "30 or greater");
+        if(x < 18.5){
+            System.out.println("Your BMI is: " + bmi + " , which puts you in the Obese category");
+        }
+        else if(x < 25){
+             System.out.println("Your BMI is: " + bmi + ", which puts you in the Normal category");
+        }
+        else if(x < 30){
+            System.out.println("Your BMI is: " + bmi + ", which puts you in the Overweight category");
+        }
+        else{
+            System.out.println("Your BMI is: " + bmi + ", which puts you in the Obese category");
+        }  
+    }
+    public void printRecord(){    
+    inputPatientInformation();
+    getTargetHeartRateInfo();
+    int j = calculateAge();
+    String age = Integer.toString(j);
+    String max = getTargetHeartRateInfo();
+    String lower = getTargetHeartRateInfo();
+    String higher = getTargetHeartRateInfo();
+    for(int i = 0; i < 76; i++)
+    {
+        System.out.print("*");
+    }
+    System.out.println(" ");
+    System.out.println("\t" + "                             Health Profile:");
+    System.out.println("* Name: " + this.firstName + " " + this.lastName);
+    System.out.println("* Gender: " + this.gender);
+    System.out.println("* DOB: " + this.month + "/" + this.day + "/" + this.year);
+    System.out.println("* Height: " + this.height + "inches");
+    System.out.println("* Weight: " + this.weight + "pounds");
+    System.out.println("* Age: "+ j);
+    System.out.println("* ❤️ Info: " + max + " beats per minute."); //+ "\n" + "\t" + " Target Heart Range is: " + lower + " - " + higher);
+    System.out.println("* Allergies: "+ this.allergy);
+    System.out.println(" ");
+    if(this.test == true){
+    System.out.println("* Alert: COVID POSITIVE");
+    }
+    else{
+     System.out.println("* Alert: COVID NEGATIVE");
+    }
+    for(int i = 0; i < 76; i++)
+    {
+        System.out.print("*");
+    }
+  }
+}
