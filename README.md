@@ -1,1 +1,1 @@
-# HealthProfile that keeps track of geeneral  user data and calculates BMI Index
+# HealthProfile keeps track of general user data and calculates BMI Index
